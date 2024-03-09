@@ -1,0 +1,21 @@
+[submodule "api"]
+	path = api
+	url = ./api
+[submodule "shared"]
+	path = shared
+	url = ./shared
+[submodule "iteration-composite-service"]
+	path = iteration-composite-service
+	url = ./iteration-composite-service
+[submodule "iteration-service"]
+	path = iteration-service
+	url = ./iteration-service
+[submodule "person-service"]
+	path = person-service
+	url = ./person-service
+[submodule "scene-service"]
+	path = scene-service
+	url = ./scene-service
+[submodule "survey-service"]
+	path = survey-service
+	url = ./survey-service
