@@ -1,21 +1,21 @@
 [submodule "api"]
 	path = api
-	url = ./api
+	url = git@github.com:NicoKuchling/wegfest-api.git
 [submodule "shared"]
 	path = shared
-	url = ./shared
+	url = git@github.com:NicoKuchling/wegfest-shared.git
 [submodule "iteration-composite-service"]
 	path = iteration-composite-service
-	url = ./iteration-composite-service
+	url = git@github.com:NicoKuchling/wegfest-iteration-composite-service.git
 [submodule "iteration-service"]
 	path = iteration-service
-	url = ./iteration-service
+	url = git@github.com:NicoKuchling/wegfest-iteration-service.git
 [submodule "person-service"]
 	path = person-service
-	url = ./person-service
+	url = git@github.com:NicoKuchling/wegfest-person-service.git
 [submodule "scene-service"]
 	path = scene-service
-	url = ./scene-service
+	url = git@github.com:NicoKuchling/wegfest-scene-service.git
 [submodule "survey-service"]
 	path = survey-service
-	url = ./survey-service
+	url = git@github.com:NicoKuchling/wegfest-survey-service.git
