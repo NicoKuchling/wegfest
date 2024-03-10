@@ -15,12 +15,16 @@
         <module name="api" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="scene-composite-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="iteration-composite-service" options="-parameters" />
       <module name="iteration-service" options="-parameters" />
       <module name="person-service" options="-parameters" />
+      <module name="scene-composite-service" options="-parameters" />
       <module name="scene-service" options="-parameters" />
       <module name="survey-service" options="-parameters" />
     </option>

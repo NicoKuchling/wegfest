@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/survey-service/pom.xml" />
         <option value="$PROJECT_DIR$/scene-service/pom.xml" />
         <option value="$PROJECT_DIR$/iteration-composite-service/pom.xml" />
+        <option value="$PROJECT_DIR$/scene-composite-service/pom.xml" />
       </list>
     </option>
   </component>
