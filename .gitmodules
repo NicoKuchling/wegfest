@@ -19,3 +19,6 @@
 [submodule "survey-service"]
 	path = survey-service
 	url = git@github.com:NicoKuchling/wegfest-survey-service.git
+[submodule "scene-composite-service"]
+	path = scene-composite-service
+	url = git@github.com:NicoKuchling/wegfest-scene-composite-service.git
