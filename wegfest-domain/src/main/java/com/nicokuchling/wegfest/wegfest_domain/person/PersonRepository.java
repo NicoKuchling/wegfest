@@ -1,7 +1,5 @@
 package com.nicokuchling.wegfest.wegfest_domain.person;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 public interface PersonRepository {

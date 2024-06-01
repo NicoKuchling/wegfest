@@ -48,14 +48,15 @@ public class PersonApiImpl implements PersonApi {
     @Override
     public ResponseEntity<PersonDTO> getPersonById(UUID id) {
 
-        LOG.debug("Trying to get person by id: {}", id);
+        LOG.debug("Trying to get person by id: {}", id.toString());
 
         Person person = personRepository.get(new PersonId(id));
-        LOG.debug("Found person with id: {}", id.toString());
 
         if(person == null) {
             return ResponseEntity.notFound().build();
         }
+
+        LOG.debug("Found person with id: {}", id.toString());
 
         return ResponseEntity.ok(new PersonDTO(
                 person.getPersonId().getId().toString(),

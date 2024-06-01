@@ -35,10 +35,10 @@ public class JpaPersonRepository implements PersonRepository {
 
     @Override
     public Person get(PersonId personId) {
+
         PersonEntity entity = em.find(PersonEntity.class, personId.getId());
 
         if(entity == null || entity.isDeleted()) {
-
             return null;
         } else {
 
@@ -64,6 +64,7 @@ public class JpaPersonRepository implements PersonRepository {
 
     @Override
     public List<Person> getAll() {
+
         List<PersonEntity> entities = em.createQuery("select _obj_ from PersonEntity _obj_", PersonEntity.class).getResultList();
 
         return entities.stream().filter(entity -> !entity.isDeleted()).map(entity ->
