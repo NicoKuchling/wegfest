@@ -1,4 +1,4 @@
-package com.nicokuchling.wegfest.wegfest_infrastructure;
+package com.nicokuchling.wegfest.wegfest_domain.person;
 
 import java.util.UUID;
 

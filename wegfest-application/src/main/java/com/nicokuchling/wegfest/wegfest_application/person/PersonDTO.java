@@ -1,7 +1,10 @@
 package com.nicokuchling.wegfest.wegfest_application.person;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.time.LocalDate;
 
+@Schema(name = "Person")
 public final class PersonDTO {
 
     public final String id;
@@ -22,22 +25,27 @@ public final class PersonDTO {
         this.gender = gender;
     }
 
+    @Schema(name = "Person id", format = "uuid", example = "9e4d8e39-4039-4e3a-85a6-149801c24246")
     public String getId() {
         return id;
     }
 
+    @Schema(name = "Person first name", example = "John")
     public String getFirstName() {
         return firstName;
     }
 
+    @Schema(name = "Person last name", example = "Doe")
     public String getLastName() {
         return lastName;
     }
 
+    @Schema(name = "Person birth date", example = "1998-03-31")
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
+    @Schema(name = "Person gender", example = "male")
     public String getGender() {
         return gender;
     }

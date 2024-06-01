@@ -1,0 +1,18 @@
+spring.application.name: wegfest-application
+server.servlet.context-path: /wegfest/api
+springdoc.api-docs.path: /openapi
+
+spring.datasource.url: jdbc:postgresql://localhost:5432/wegfest
+spring.datasource.username: admin
+spring.datasource.password: admin1234
+
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation: true
+
+# Hibernate ddl auto (create, create-drop, validate, update) - for production this value should be validate
+spring.jpa.hibernate.ddl-auto: validate
+
+logging:
+  level:
+    root: INFO
+    com.nicokuchling.wegfest: DEBUG
+

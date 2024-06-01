@@ -1,6 +1,7 @@
 package com.nicokuchling.wegfest.wegfest_infrastructure.person;
 
-import com.nicokuchling.wegfest.wegfest_infrastructure.Person;
+import com.nicokuchling.wegfest.wegfest_domain.person.Person;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
