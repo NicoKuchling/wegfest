@@ -38,7 +38,7 @@ public class JpaPersonRepository implements PersonRepository {
 
         PersonEntity entity = em.find(PersonEntity.class, personId.getId());
 
-        if(entity == null || entity.isDeleted()) {
+        if(entity == null) {
             return null;
         } else {
 

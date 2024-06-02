@@ -24,6 +24,9 @@ public class TrafficSceneEntity {
     @Column(name = "DIFFICULTY", nullable = false, updatable = false)
     private String difficulty;
 
+    @Column(name = "QUESTIONNAIRE_ID", nullable = true, updatable = true)
+    private UUID questionnaireId;
+
     public UUID getId() {
         return id;
     }
@@ -54,5 +57,13 @@ public class TrafficSceneEntity {
 
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public UUID getQuestionnaireId() {
+        return questionnaireId;
+    }
+
+    public void setQuestionnaireId(UUID questionnaireId) {
+        this.questionnaireId = questionnaireId;
     }
 }

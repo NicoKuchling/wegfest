@@ -1,4 +1,4 @@
-package com.nicokuchling.wegfest.wegfest_domain.questionnaire;
+package com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids;
 
 import java.util.UUID;
 

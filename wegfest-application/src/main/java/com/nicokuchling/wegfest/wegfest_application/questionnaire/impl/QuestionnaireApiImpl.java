@@ -3,7 +3,7 @@ package com.nicokuchling.wegfest.wegfest_application.questionnaire.impl;
 import com.nicokuchling.wegfest.wegfest_application.questionnaire.QuestionDTO;
 import com.nicokuchling.wegfest.wegfest_application.questionnaire.QuestionnaireApi;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Question;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.QuestionId;
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionId;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.QuestionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

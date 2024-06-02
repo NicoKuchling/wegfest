@@ -1,7 +1,7 @@
 package com.nicokuchling.wegfest.wegfest_infrastructure.questionnaire;
 
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Question;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.QuestionId;
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionId;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.QuestionRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

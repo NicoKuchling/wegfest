@@ -7,4 +7,6 @@ public interface TrafficSceneRepository {
     List<TrafficScene> getAll();
 
     TrafficScene get(TrafficSceneId trafficSceneId);
+
+    void update(TrafficScene trafficScene);
 }

@@ -1,11 +1,13 @@
 package com.nicokuchling.wegfest.wegfest_infrastructure.scene;
 
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionnaireId;
 import com.nicokuchling.wegfest.wegfest_domain.scene.TrafficScene;
 import com.nicokuchling.wegfest.wegfest_domain.scene.TrafficSceneId;
 import com.nicokuchling.wegfest.wegfest_domain.scene.TrafficSceneRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +31,8 @@ public class JpaTrafficSceneRepository implements TrafficSceneRepository {
                         new TrafficSceneId(entity.getId()),
                         entity.getName(),
                         entity.getDescription(),
-                        entity.getDifficulty()))
+                        entity.getDifficulty(),
+                        new QuestionnaireId(entity.getQuestionnaireId())))
                 .collect(Collectors.toList());
     }
 
@@ -46,7 +49,16 @@ public class JpaTrafficSceneRepository implements TrafficSceneRepository {
                     new TrafficSceneId(entity.getId()),
                     entity.getName(),
                     entity.getDescription(),
-                    entity.getDifficulty());
+                    entity.getDifficulty(),
+                    new QuestionnaireId(entity.getQuestionnaireId()));
         }
+    }
+
+    /* Workaround - repositories should reflect updates on domain objects without explicitly calling an update method */
+    @Override
+    @Transactional
+    public void update(TrafficScene trafficScene) {
+        TrafficSceneEntity entity = em.find(TrafficSceneEntity.class, trafficScene.getTrafficSceneId().getId());
+        entity.setQuestionnaireId(trafficScene.getQuestionnaireId().getId());
     }
 }
