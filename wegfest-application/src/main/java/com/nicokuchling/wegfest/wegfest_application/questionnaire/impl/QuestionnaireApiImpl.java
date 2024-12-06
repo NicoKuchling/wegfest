@@ -2,9 +2,9 @@ package com.nicokuchling.wegfest.wegfest_application.questionnaire.impl;
 
 import com.nicokuchling.wegfest.wegfest_application.questionnaire.QuestionDTO;
 import com.nicokuchling.wegfest.wegfest_application.questionnaire.QuestionnaireApi;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Question;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionId;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.QuestionRepository;
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Item;
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.ItemId;
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ public class QuestionnaireApiImpl implements QuestionnaireApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(QuestionnaireApiImpl.class);
 
-    private final QuestionRepository questionRepository;
+    private final ItemRepository itemRepository;
 
     @Autowired
-    public QuestionnaireApiImpl(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+    public QuestionnaireApiImpl(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
     }
 
 
@@ -33,14 +33,14 @@ public class QuestionnaireApiImpl implements QuestionnaireApi {
 
         LOG.debug("Trying to get all questions");
 
-        List<Question> questions = questionRepository.getAll();
+        List<Item> questions = itemRepository.getAll();
 
         LOG.debug("Found {} questions", questions.size());
 
-        return questions.stream().map(question -> new QuestionDTO(
-                    question.getQuestionId().getId().toString(),
-                    question.getQuestion(),
-                    question.getPossibleAnswers()))
+        return questions.stream().map(item -> new QuestionDTO(
+                    item.getItemId().getId().toString(),
+                    item.getQuestion(),
+                    item.getResponses()))
                 .collect(Collectors.toList());
     }
 
@@ -49,17 +49,17 @@ public class QuestionnaireApiImpl implements QuestionnaireApi {
 
         LOG.debug("Trying to get question with id {}", id.toString());
 
-        Question question = questionRepository.get(new QuestionId(id));
+        Item item = itemRepository.get(new ItemId(id));
 
-        if(question == null) {
+        if(item == null) {
             return ResponseEntity.notFound().build();
         }
 
         LOG.debug("Found question with id {}", id.toString());
 
         return ResponseEntity.ok(new QuestionDTO(
-                question.getQuestionId().getId().toString(),
-                question.getQuestion(),
-                question.getPossibleAnswers()));
+                item.getItemId().getId().toString(),
+                item.getQuestion(),
+                item.getResponses()));
     }
 }

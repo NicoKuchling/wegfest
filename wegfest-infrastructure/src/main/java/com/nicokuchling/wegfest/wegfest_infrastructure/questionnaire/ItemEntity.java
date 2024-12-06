@@ -1,13 +1,13 @@
 package com.nicokuchling.wegfest.wegfest_infrastructure.questionnaire;
 
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Item;
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "QUESTION")
-public class QuestionEntity {
+@Table(name = "ITEM")
+public class ItemEntity {
 
     @Id
     @Column(name = "ID")
@@ -16,11 +16,16 @@ public class QuestionEntity {
     @Column(name = "QUESTION")
     private String question;
 
-    @ElementCollection
-    @CollectionTable(name = "QUESTION_ANSWER", joinColumns = @JoinColumn(
-            name = "QUESTION_ID", referencedColumnName = "ID"))
-    @Column(name = "ANSWER")
-    private List<String> possibleAnswers;
+    public ItemEntity() {}
+
+    private ItemEntity(UUID id, String question) {
+        this.id = id;
+        this.question = question;
+    }
+
+    public static ItemEntity from(Item item) {
+        return new ItemEntity(item.getItemId().getId(), item.getQuestion());
+    }
 
     public UUID getId() {
         return id;
@@ -36,13 +41,5 @@ public class QuestionEntity {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public List<String> getPossibleAnswers() {
-        return possibleAnswers;
-    }
-
-    public void setPossibleAnswers(List<String> answers) {
-        this.possibleAnswers = answers;
     }
 }

@@ -1,7 +1,8 @@
 package com.nicokuchling.wegfest.wegfest_infrastructure.questionnaire;
 
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Item;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Questionnaire;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionId;
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.ItemId;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,40 +16,33 @@ public class QuestionnaireEntity {
     @Column(name = "ID")
     private UUID id;
 
-    @Column(name = "IS_TEMPLATE", nullable = false, updatable = false)
-    private boolean isTemplate;
+    @Column(name = "NAME", nullable = false, updatable = false)
+    private String name;
 
     @ElementCollection
-    @CollectionTable(name = "QUESTIONNAIRE_QUESTION", joinColumns = @JoinColumn(name = "QUESTIONNAIRE_ID"))
-    @Column(name = "QUESTION_ID")
-    private List<UUID> questions;
-
-    @Column(name = "PERSON_ID", nullable = true, updatable = false)
-    private UUID personId;
+    @CollectionTable(name = "QUESTIONNAIRE_ITEM", joinColumns = @JoinColumn(name = "QUESTIONNAIRE_ID", referencedColumnName = "ID"))
+    @Column(name = "ITEM_ID")
+    private List<UUID> items;
 
     public QuestionnaireEntity() {}
 
-    private QuestionnaireEntity(UUID id, boolean isTemplate, List<UUID> questions, UUID personId) {
+    private QuestionnaireEntity(UUID id, String name, List<UUID> items) {
         this.id = id;
-        this.isTemplate = isTemplate;
-        this.questions = questions;
-        this.personId = personId;
+        this.name = name;
+        this.items = items;
     }
 
     public static QuestionnaireEntity from(Questionnaire questionnaire) {
 
-        List<UUID> questionIds = questionnaire.getQuestions()
+        List<UUID> itemIds = questionnaire.getItems()
                 .stream()
-                .map(QuestionId::getId)
+                .map(item -> item.getItemId().getId())
                 .toList();
-
-        UUID personId = questionnaire.getRespondent() == null ? null : questionnaire.getRespondent().getId();
 
         return new QuestionnaireEntity(
                 questionnaire.getQuestionnaireId().getId(),
-                questionnaire.isTemplate(),
-                questionIds,
-                personId);
+                questionnaire.getName(),
+                itemIds);
     }
 
     public UUID getId() {
@@ -59,27 +53,19 @@ public class QuestionnaireEntity {
         this.id = id;
     }
 
-    public boolean isTemplate() {
-        return isTemplate;
+    public String getName() {
+        return name;
     }
 
-    public void setTemplate(boolean template) {
-        isTemplate = template;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<UUID> getQuestions() {
-        return questions;
+    public List<UUID> getItems() {
+        return items;
     }
 
-    public void setQuestions(List<UUID> questions) {
-        this.questions = questions;
-    }
-
-    public UUID getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(UUID personId) {
-        this.personId = personId;
+    public void setItems(List<UUID> questions) {
+        this.items = questions;
     }
 }

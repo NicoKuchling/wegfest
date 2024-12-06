@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -27,7 +26,7 @@ public class JpaTrafficSceneRepository implements TrafficSceneRepository {
                 TrafficSceneEntity.class)
                 .getResultList();
 
-        return entities.stream().map(entity -> new TrafficScene(
+        return entities.stream().map(entity -> TrafficScene.from(
                         new TrafficSceneId(entity.getId()),
                         entity.getName(),
                         entity.getDescription(),
@@ -45,7 +44,7 @@ public class JpaTrafficSceneRepository implements TrafficSceneRepository {
             return null;
         } else {
 
-            return new TrafficScene(
+            return TrafficScene.from(
                     new TrafficSceneId(entity.getId()),
                     entity.getName(),
                     entity.getDescription(),

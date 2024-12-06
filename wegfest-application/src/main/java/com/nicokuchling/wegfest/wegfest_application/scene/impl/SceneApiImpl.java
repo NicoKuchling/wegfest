@@ -5,7 +5,7 @@ import com.nicokuchling.wegfest.wegfest_application.scene.SceneApi;
 import com.nicokuchling.wegfest.wegfest_application.scene.TrafficSceneDTO;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Questionnaire;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.QuestionnaireRepository;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionId;
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.ItemId;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionnaireId;
 import com.nicokuchling.wegfest.wegfest_domain.scene.TrafficScene;
 import com.nicokuchling.wegfest.wegfest_domain.scene.TrafficSceneId;
@@ -100,10 +100,10 @@ public class SceneApiImpl implements SceneApi {
         QuestionnaireId questionnaireId = questionnaireRepository.nextIdentity();
 
         Questionnaire.Builder builder = new Questionnaire.Builder();
-        builder.createQuestionnaireTemplateWithId(questionnaireId);
+        builder.createQuestionnaire(questionnaireId);
 
         questionnaire.getQuestionIds().forEach(questionId -> builder
-                .addQuestion(new QuestionId(UUID.fromString(questionId))));
+                .addItem(new ItemId(UUID.fromString(questionId))));
 
         Questionnaire newQuestionnaire = builder.build();
         questionnaireRepository.add(newQuestionnaire);
@@ -134,12 +134,12 @@ public class SceneApiImpl implements SceneApi {
             return null;
         }
 
-        Questionnaire questionnaire = questionnaireRepository.get(questionnaireId);
+        Questionnaire questionnaire = questionnaireRepository.getQuestionnaire(questionnaireId);
 
         return new QuestionnaireDTO(
                 questionnaire.getQuestionnaireId().getId().toString(),
                 questionnaire.isTemplate(),
-                questionnaire.getQuestions().stream().map(questionId -> questionId.getId().toString()).toList(),
+                questionnaire.getItems().stream().map(questionId -> questionId.getId().toString()).toList(),
                 questionnaire.getRespondent() == null ? null : questionnaire.getRespondent().toString(),
                 questionnaire.isTemplate() ? null : questionnaire.getAnsweredQuestions()
                         .stream()

@@ -14,12 +14,16 @@ public final class TrafficScene {
 
     private QuestionnaireId questionnaireId;
 
-    public TrafficScene(TrafficSceneId id, String name, String description, String difficulty, QuestionnaireId questionnaireId) {
+    private TrafficScene(TrafficSceneId id, String name, String description, String difficulty, QuestionnaireId questionnaireId) {
         this.trafficSceneId = id;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
         this.questionnaireId = questionnaireId;
+    }
+
+    public static TrafficScene from(TrafficSceneId id, String name, String description, String difficulty, QuestionnaireId questionnaireId) {
+        return new TrafficScene(id, name, description, difficulty, questionnaireId);
     }
 
     public TrafficSceneId getTrafficSceneId() {

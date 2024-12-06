@@ -2,11 +2,11 @@ package com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids;
 
 import java.util.UUID;
 
-public final class QuestionId {
+public final class ItemId {
 
     private final UUID id;
 
-    public QuestionId(UUID id) {
+    public ItemId(UUID id) {
         this.id = id;
     }
 

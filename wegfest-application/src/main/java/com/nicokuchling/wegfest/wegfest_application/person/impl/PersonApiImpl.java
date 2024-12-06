@@ -73,7 +73,7 @@ public class PersonApiImpl implements PersonApi {
 
         PersonId personId = personRepository.nextIdentity();
 
-        Person person = new Person(
+        Person person = Person.from(
                 personId,
                 personDTO.getFirstName(),
                 personDTO.getLastName(),
