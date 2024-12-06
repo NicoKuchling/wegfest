@@ -4,6 +4,9 @@ package com.nicokuchling.wegfest.wegfest_domain.person;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Class representing a person object. Each field must contain a value.
+ */
 public final class Person {
 
     private final PersonId personId;
@@ -16,12 +19,51 @@ public final class Person {
 
     private final String gender;
 
-    public Person(PersonId personId, String firstName, String lastName, LocalDate birthDate, String gender) {
+    private Person(PersonId personId, String firstName, String lastName, LocalDate birthDate, String gender) {
         this.personId = personId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.gender = gender;
+    }
+
+    /**
+     * Static factory method for object creation.
+     * <p>
+     *     New instances of PersonId must be obtained with a call of the method {@link PersonRepository#nextIdentity() nextIdentity}.
+     * </p>
+     *
+     * @param personId identifier for this object.
+     * @param firstName persons first name
+     * @param lastName persons last name
+     * @param birthDate persons birthdate
+     * @param gender persons gender
+     *
+     * @return new instance of Person class
+     */
+    public static Person from(PersonId personId, String firstName, String lastName, LocalDate birthDate, String gender) {
+
+        if (personId == null) {
+            throw new IllegalArgumentException("personId cannot be null");
+        }
+
+        if (firstName == null || firstName.isBlank()) {
+            throw new IllegalArgumentException("First name cannot be null or empty");
+        }
+
+        if(lastName == null || lastName.isBlank()) {
+            throw new IllegalArgumentException("Last name cannot be null or empty");
+        }
+
+        if(birthDate == null) {
+            throw new IllegalArgumentException("Birth date cannot be null");
+        }
+
+        if(gender == null || gender.isBlank()) {
+            throw new IllegalArgumentException("Gender cannot be null or empty");
+        }
+
+        return new Person(personId, firstName, lastName, birthDate, gender);
     }
 
     public PersonId getPersonId() {

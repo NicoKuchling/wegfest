@@ -42,7 +42,7 @@ public class JpaPersonRepository implements PersonRepository {
             return null;
         } else {
 
-            return new Person(
+            return Person.from(
                     new PersonId(entity.getId()),
                     entity.getFirstName(),
                     entity.getLastName(),
@@ -68,7 +68,7 @@ public class JpaPersonRepository implements PersonRepository {
         List<PersonEntity> entities = em.createQuery("select _obj_ from PersonEntity _obj_", PersonEntity.class).getResultList();
 
         return entities.stream().filter(entity -> !entity.isDeleted()).map(entity ->
-                new Person(
+                Person.from(
                         new PersonId(entity.getId()),
                         entity.getFirstName(),
                         entity.getLastName(),
