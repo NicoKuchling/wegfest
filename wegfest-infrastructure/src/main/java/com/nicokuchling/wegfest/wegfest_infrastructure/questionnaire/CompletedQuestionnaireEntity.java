@@ -1,8 +1,8 @@
 package com.nicokuchling.wegfest.wegfest_infrastructure.questionnaire;
 
+import com.nicokuchling.wegfest.wegfest_domain.questionnaire.CompletedQuestionnaire;
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,13 +17,23 @@ public class CompletedQuestionnaireEntity {
     private UUID questionnaireId;
 
     @Column(name = "PERSON_ID", nullable = false, updatable = false)
-    private UUID respondent;
+    private UUID respondentId;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "COMPLETED_QUESTIONNAIRE_ITEM_RESPONSE",
-            joinColumns =  @JoinColumn(name = "COMPLETED_QUESTIONNAIRE_ID", referencedColumnName = "ID"))
-    private List<ItemResponse> responses;
+    public CompletedQuestionnaireEntity() {}
+
+    private CompletedQuestionnaireEntity(UUID id, UUID questionnaireId, UUID respondentId) {
+        this.id = id;
+        this.questionnaireId = questionnaireId;
+        this.respondentId = respondentId;
+    }
+
+    public static CompletedQuestionnaireEntity of(CompletedQuestionnaire completedQuestionnaire) {
+        return new CompletedQuestionnaireEntity(
+                completedQuestionnaire.getQuestionnaire().getQuestionnaireId().getId(),
+                completedQuestionnaire.getQuestionnaireId().getId(),
+                completedQuestionnaire.getRespondent().getPersonId().getId()
+        );
+    }
 
     public UUID getId() {
         return id;
@@ -41,19 +51,11 @@ public class CompletedQuestionnaireEntity {
         this.questionnaireId = questionnaireId;
     }
 
-    public UUID getRespondent() {
-        return respondent;
+    public UUID getRespondentId() {
+        return respondentId;
     }
 
-    public void setRespondent(UUID respondent) {
-        this.respondent = respondent;
-    }
-
-    public List<ItemResponse> getResponses() {
-        return responses;
-    }
-
-    public void setResponses(List<ItemResponse> responses) {
-        this.responses = responses;
+    public void setRespondentId(UUID respondent) {
+        this.respondentId = respondent;
     }
 }

@@ -1,8 +1,7 @@
 package com.nicokuchling.wegfest.wegfest_infrastructure.questionnaire;
 
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Item;
+
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.Questionnaire;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.ItemId;
 import jakarta.persistence.*;
 
 import java.util.List;

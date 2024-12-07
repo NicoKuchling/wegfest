@@ -1,9 +1,7 @@
 package com.nicokuchling.wegfest.wegfest_domain.questionnaire;
 
-import com.nicokuchling.wegfest.wegfest_domain.person.PersonId;
-import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.ItemId;
+import com.nicokuchling.wegfest.wegfest_domain.person.Person;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionnaireId;
-import org.javatuples.Pair;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,20 +13,16 @@ public final class CompletedQuestionnaire {
 
     private final Questionnaire questionnaire;
 
-    private final PersonId respondent;
+    private final Person respondent;
 
-    private final List<Pair<ItemId, String>> itemResponses;
+    private final List<ItemResponse> chosenResponses;
 
-    private CompletedQuestionnaire(
-            QuestionnaireId questionnaireId,
-            Questionnaire questionnaire,
-            PersonId respondent,
-            List<Pair<ItemId, String>> itemResponses) {
+    private CompletedQuestionnaire(Builder builder) {
 
-        this.questionnaireId = questionnaireId;
-        this.questionnaire = questionnaire;
-        this.respondent = respondent;
-        this.itemResponses = Collections.unmodifiableList(itemResponses);
+        this.questionnaireId = builder.questionnaireId;
+        this.questionnaire = builder.questionnaire;
+        this.respondent = builder.respondent;
+        this.chosenResponses = Collections.unmodifiableList(builder.chosenResponses);
     }
 
     public QuestionnaireId getQuestionnaireId() {
@@ -39,38 +33,45 @@ public final class CompletedQuestionnaire {
         return questionnaire;
     }
 
-    public PersonId getRespondent() {
+    public Person getRespondent() {
         return respondent;
     }
 
-    public List<Pair<ItemId, String>> getItemResponses() {
-        return itemResponses;
+    public List<ItemResponse> getChosenResponses() {
+        return chosenResponses;
     }
 
     public static class Builder {
         private final QuestionnaireId questionnaireId;
         private final Questionnaire questionnaire;
-        private final PersonId respondent;
-        private final List<Pair<ItemId, String>> itemResponses;
+        private final Person respondent;
+        private final List<ItemResponse> chosenResponses;
 
-        public Builder( QuestionnaireId questionnaireId, Questionnaire questionnaire, PersonId respondent) {
+        public Builder(QuestionnaireId questionnaireId, Questionnaire questionnaire, Person respondent) {
             this.questionnaireId = questionnaireId;
             this.questionnaire = questionnaire;
             this.respondent = respondent;
-            this.itemResponses = new ArrayList<>();
+            this.chosenResponses = new ArrayList<>();
         }
 
-        public Builder addItemResponse(Pair<ItemId, String> itemResponse) {
-            itemResponses.add(itemResponse);
+        public Builder addItemResponse(ItemResponse itemResponse) {
+
+            if(questionnaire.getItems().contains(itemResponse.getItem())) {
+                chosenResponses.add(itemResponse);
+            } else {
+                throw new IllegalArgumentException("Item " + itemResponse.getItem() + " is not part of the corresponding questionnaire. " +
+                        "The following items are part of the questionnaire: " + questionnaire.getItems());
+            }
+
             return this;
         }
 
         public CompletedQuestionnaire build() {
-            if(questionnaire.getItems().size() != itemResponses.size()) {
+            if(questionnaire.getItems().size() != chosenResponses.size()) {
                 throw new IllegalStateException("Each item of the questionnaire must have been answered by the respondent");
             }
 
-            return new CompletedQuestionnaire(questionnaireId, questionnaire, respondent, itemResponses);
+            return new CompletedQuestionnaire(this);
         }
     }
 }

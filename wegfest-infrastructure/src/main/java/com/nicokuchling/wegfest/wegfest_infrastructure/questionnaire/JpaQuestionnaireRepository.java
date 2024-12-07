@@ -1,9 +1,12 @@
 package com.nicokuchling.wegfest.wegfest_infrastructure.questionnaire;
 
+import com.nicokuchling.wegfest.wegfest_domain.person.Person;
 import com.nicokuchling.wegfest.wegfest_domain.person.PersonId;
+import com.nicokuchling.wegfest.wegfest_domain.person.PersonRepository;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.*;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.ItemId;
 import com.nicokuchling.wegfest.wegfest_domain.questionnaire.ids.QuestionnaireId;
+import com.nicokuchling.wegfest.wegfest_infrastructure.person.PersonEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -23,6 +26,9 @@ public class JpaQuestionnaireRepository implements QuestionnaireRepository {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
 
     @Override
     public QuestionnaireId nextIdentity() {
@@ -98,12 +104,46 @@ public class JpaQuestionnaireRepository implements QuestionnaireRepository {
 
     @Override
     public CompletedQuestionnaire add(CompletedQuestionnaire completedQuestionnaire) {
-        return null;
+        CompletedQuestionnaireEntity entity = CompletedQuestionnaireEntity.of(completedQuestionnaire);
+        em.persist(entity);
+
+        completedQuestionnaire.getChosenResponses().forEach(response -> {
+            ItemResponseEntity responseEntity = ItemResponseEntity.of(
+                    completedQuestionnaire,
+                    response
+            );
+
+            em.persist(responseEntity);
+        });
+
+        return completedQuestionnaire;
     }
 
     @Override
     public CompletedQuestionnaire getCompletedQuestionnaire(QuestionnaireId questionnaireId) {
-        return null;
+
+        Query completedQuestionnaireQuery = em.createQuery("""
+            select _obj_ from CompletedQuestionnaireEntity _obj_ 
+            where _obj_.questionnaireId = :questionnaireId
+        """);
+
+        completedQuestionnaireQuery.setParameter("questionnaireId", questionnaireId);
+        CompletedQuestionnaireEntity completedQuestionnaireEntity =
+                (CompletedQuestionnaireEntity) completedQuestionnaireQuery.getSingleResult();
+
+        Questionnaire questionnaire = getQuestionnaire(new QuestionnaireId(completedQuestionnaireEntity.getQuestionnaireId()));
+        Person respondent = personRepository.get(new PersonId(completedQuestionnaireEntity.getRespondentId()));
+        List<ItemResponse> responses = itemRepository.getResponsesFor(new QuestionnaireId(completedQuestionnaireEntity.getId()));
+
+        CompletedQuestionnaire.Builder completedQuestionnaireBuilder =
+                new CompletedQuestionnaire.Builder(
+                        new QuestionnaireId(completedQuestionnaireEntity.getId()),
+                        questionnaire,
+                        respondent);
+
+        responses.forEach(completedQuestionnaireBuilder::addItemResponse);
+
+        return completedQuestionnaireBuilder.build();
     }
 
     @Override
